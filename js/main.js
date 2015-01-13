@@ -1,5 +1,5 @@
+$.ajaxSetup({ cache: false });
 $( document ).ready(function() {
-
 	$( "#outer" ).on( "click", ".player", function() {
 		//Remove previously added 'selected' class and add 'selected' to current
 		$(".player").removeClass( "selected" )
@@ -17,10 +17,16 @@ $( document ).ready(function() {
 	$(".givePoints").click(function(event) {
 		var playerId = $( ".details" ).data( "playerId" );
 		$.post( "ajax.php", { action: "addPoints", playerId: playerId} );
-		$.get( "ajax.php", { action: "getLeaderboard", }, function( data ) {
-			$( ".leaderboard" ).html( data );
-			$(".player#"+playerId).addClass( "selected" );
-		});
+
+		//Going to update here manually for better speed when voting. 
+		var score = $("#"+playerId+" .score").html();
+		var newScore = parseInt(score) + 5;
+		$("#"+playerId+" .score").html(newScore);
+
+		//Using tinysort to sort my manual updating.
+		var NodeList = document.querySelectorAll("div.player");
+		tinysort.defaults.order = 'desc';
+		tinysort(NodeList,'span.score');
 
 	});
 });

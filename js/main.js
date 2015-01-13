@@ -4,10 +4,10 @@ $( document ).ready(function() {
 		//Remove previously added 'selected' class and add 'selected' to current
 		$(".player").removeClass( "selected" )
 		$(this).addClass( "selected" )
-		//Get Player ID + Name
+		//Get Player ID & Player name
 		var playerId = $(this).attr("id");
 		var playerName = $(this).find(".name").html();
-		//Build Form
+		//Build and show .details div
 		$('.none').hide();
 		$('.details .name').html(playerName);
 		$('.details').data("playerId", playerId);
@@ -15,10 +15,12 @@ $( document ).ready(function() {
 	});
 
 	$(".givePoints").click(function(event) {
+
 		var playerId = $( ".details" ).data( "playerId" );
+
 		$.post( "ajax.php", { action: "addPoints", playerId: playerId} );
 
-		//Going to update here manually for better speed when voting. 
+		//Updating the score displayed manually for better speed than reloading entire leaderboard
 		var score = $("#"+playerId+" .score").html();
 		var newScore = parseInt(score) + 5;
 		$("#"+playerId+" .score").html(newScore);
@@ -31,6 +33,7 @@ $( document ).ready(function() {
 	});
 });
 
+/* Auto updates the leaderboard every 10 seconds */
 var autoReload = setInterval(function () {
 	var playerId = $( ".details" ).data( "playerId" );
 	$.get( "ajax.php", { action: "getLeaderboard", }, function( data ) {

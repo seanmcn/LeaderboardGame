@@ -2,7 +2,7 @@
 define("DB_HOST", "localhost");
 define("DB_USER", "root");
 define("DB_PASSWORD", "");
-define("DB_NAME", "bbtv-game");
+define("DB_NAME", "leaderboard-game");
 
 class database extends mysqli {
     public function __construct($host, $user, $pass, $db) {
@@ -16,8 +16,4 @@ class database extends mysqli {
 }
 
 $db = new database(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-// echo 'Success... ' . $db->host_info . "\n";
-
-//$db->close();
 ?>
